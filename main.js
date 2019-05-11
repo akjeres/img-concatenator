@@ -96,7 +96,7 @@ function Concatenator(options) {
     function setLabelValue(input) {
         var value = opts.emptyLabelValue;
         if (input && input.value) {
-            value = input.value.replace(/.+fakepath(\\|\/)/i, '');
+            value = input.value.replace(/^.+(\\|\/)/ig, '');
         }
         input.nextElementSibling.textContent = value;
     }
