@@ -1,0 +1,246 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+* {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    line-height: normal;
+    font-weight: 500;
+    color: #000;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    outline: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+.concatenator {
+    display: block;
+    border: 3px solid #000000;
+    -webkit-border-radius: 10px 10px 0 0;
+            border-radius: 10px 10px 0 0;
+    width: 806px;
+    background: #fff;
+    overflow: hidden;
+}
+.concatenator .status-bar {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 3px 7px;
+    border: 0;
+}
+.concatenator .status-bar .buttons {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.concatenator .status-bar .button {
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 50%;
+            border-radius: 50%;
+    border: 0;
+    margin: 0 2px;
+}
+.concatenator .status-bar .button-green {
+    background-color: #4cd964;
+}
+.concatenator .status-bar .button-yellow {
+    background-color: #ffcc00;
+}
+.concatenator .status-bar .button-red {
+    background-color: #ff3b30;
+}
+.concatenator form {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    border: 3px solid #000;
+    border-left: 0;
+    border-right: 0;
+    padding: 12px 0 0 0;
+}
+.concatenator .management {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-ordinal-group: 1;
+    -webkit-order: 0;
+        -ms-flex-order: 0;
+            order: 0;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #000;
+    margin-bottom: 15px;
+}
+.concatenator .management button,
+.concatenator form .input-label {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    display: block;
+    cursor: pointer;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+    border: 0;
+    background-color: #007aff;
+    color: #fff;
+    padding: 7px 15px;
+    -webkit-box-shadow: 0 0 3px rgba(0,97,230,0);
+            box-shadow: 0 0 3px rgba(0,97,230,0);
+    -webkit-transition: background-color 0.3s ease,
+                -webkit-box-shadow 0.3s ease;
+    transition: background-color 0.3s ease,
+                -webkit-box-shadow 0.3s ease;
+    -o-transition: background-color 0.3s ease,
+                box-shadow 0.3s ease;
+    transition: background-color 0.3s ease,
+                box-shadow 0.3s ease;
+    transition: background-color 0.3s ease,
+                box-shadow 0.3s ease,
+                -webkit-box-shadow 0.3s ease;
+}
+.concatenator .management button:hover,
+.concatenator form .input-label:hover {
+    background-color: #0061E6;
+    -webkit-box-shadow: 0 0 3px rgba(0,97,230,0);
+            box-shadow: 0 0 3px rgba(0,97,230,0);
+}
+.concatenator .management button:focus,
+.concatenator form .input-label:focus {
+    -webkit-box-shadow: 0 0 3px#0061E6;
+            box-shadow: 0 0 3px#0061E6;
+}
+.concatenator .management button:focus-within,
+.concatenator form .input-label:focus-within {
+    background-color: #0061E6;
+    -webkit-box-shadow: 0 0 3px rgba(0,97,230,0);
+            box-shadow: 0 0 3px rgba(0,97,230,0);
+}
+.concatenator .management button:active,
+.concatenator form .input-label:active {
+    background-color: #0061E6;
+    -webkit-box-shadow: 0 0 3px #0061E6;
+            box-shadow: 0 0 3px #0061E6;
+}
+.concatenator .input {
+    display: none;
+}
+.concatenator form .input-label {
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+    width: -webkit-calc(50% - 23px);
+    width: calc(50% - 23px);
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.concatenator form .input-label:nth-child(even) {
+    margin-left: 15px;
+    margin-right: auto;
+}
+.concatenator form .input-label:nth-child(odd) {
+    margin-right: 15px;
+    margin-left: auto;
+}
+.concatenator form .file-name {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+}
+.concatenator .canvas {
+    width: 100%;
+    min-height: 600px;
+}
+.checkbox {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    width: 50px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #D9DADC;
+    -webkit-border-radius: 50px;
+            border-radius: 50px;
+    -webkit-box-shadow: inset -20px 0 0 0 #ffffff;
+            box-shadow: inset -20px 0 0 0 #ffffff;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.checkbox:after {
+    content: ""; 
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 26px;
+    height: 26px;
+    background-color: transparent;
+    -webkit-border-radius: 50%;
+            border-radius: 50%;
+    -webkit-box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+            box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+}
+.checkbox:checked {
+    border-color: #4cd964;
+    -webkit-box-shadow: inset 20px 0 0 0 #4cd964;
+            box-shadow: inset 20px 0 0 0 #4cd964;
+}
+.checkbox:checked:after {
+    left: 20px;
+    -webkit-box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
+            box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
+}
+.checkbox:before {
+    content: 'Horizontal mode';
+    pointer-events: none;
+    position: absolute;
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
+    top: 0;
+    left: 65px;
+    font-size: 14px;
+}
+.checkbox:checked:before {
+    content: 'Vertical mode';
+}
