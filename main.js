@@ -1,7 +1,9 @@
 'use strict';
 (function(){
     window.addEventListener('load', function(e) {
-        var c1 = new Concatenator({target:document.getElementById('root')});
+        var c1 = new Concatenator({
+            target:document.getElementById('root'),
+        });
         c1.render();
     })
 })();
@@ -11,41 +13,50 @@ function Concatenator(options) {
         target: document.getElementsByTagName('body')[0],
         emptyLabelValue: 'No image selected',
         width: '800px',
+        button: 'Add field',
+        verticalMode: false,
     };
     var opts = Object.assign(Object.create(defaults), options);
+    var _button = document.createElement('button');
+    var _form =  document.createElement('form');
+    var _canvas = document.createElement('div'); //change to "canvas"
     var _concatenator = createConcatenator();
     _concatenator.style.width = (parseInt(opts.width) + 6) + 'px';
     var _target = opts.target;
-    var _button = _concatenator.querySelector('button');
-    var _form = _concatenator.querySelector('form');
-    var _canvas = _concatenator.querySelector('.canvas');
     var self = this;
     function createConcatenator() {
         var elem = document.createElement('div');
         elem.setAttribute('class', 'concatenator');
-        elem.innerHTML = `<div class="status-bar">
-            <div class="buttons">
-                <div class="button button-green"></div>
-                <div class="button button-yellow"></div>
-                <div class="button button-red"></div>
-            </div>
-        </div>
-        <form>
-            <div class="management">
-                <input type="checkbox" name="verticalMode" class="checkbox" tabindex="0">
-                <button type="button">Add field</button>
-            </div>
-            <label class="input-label" tabindex="0">
-                <input type="file" accept="image/png,image/jpeg" class="input" tabindex="-1">
-                <span class="file-name">No image selected</span>
-            </label>
-            <label class="input-label" tabindex="0">
-                <input type="file" accept="image/png,image/jpeg" class="input" tabindex="-1">
-                <span class="file-name">No image selected</span>
-            </label>
-        </form>
-        <div class="canvas" style="width:${opts.width};height:${parseInt(parseInt(opts.width) * 0.75) + 'px'}"></div>`;
-
+        //Canvas attributes
+        _canvas.setAttribute('class', 'canvas');
+        _canvas.style.width = opts.width;
+        _canvas.style.height = parseInt(parseInt(opts.width) * 0.75) + 'px';
+        //Status bar (optional)
+        var bar = createEl('div', 'status-bar');
+        var btns = createEl('div', 'buttons');
+        var bG = createEl('div', 'button button-green');
+        var bY = createEl('div', 'button button-yellow');
+        var bR = createEl('div', 'button button-red');
+        btns.appendChild(bG);
+        btns.appendChild(bY);
+        btns.appendChild(bR);
+        bar.appendChild(btns);
+        //Management bar
+        var m = createEl('div', 'management');
+        var cB = createEl('input', 'checkbox');
+        cB.setAttribute('type', 'checkbox');
+        cB.setAttribute('name', 'verticalMode');
+        cB.setAttribute('tabindex', '0');
+        opts.verticalMode && cB.setAttribute('checked', opts.verticalMode);
+        _button.textContent = opts.button;
+        m.appendChild(cB);
+        m.appendChild(_button);
+        _form.appendChild(m);
+        //Append fields
+        addField();addField();        
+        elem.appendChild(bar);
+        elem.appendChild(_form);
+        elem.appendChild(_canvas);
         return elem;
     }
     function renderConcatenator() {
@@ -53,16 +64,13 @@ function Concatenator(options) {
     }
     function addField() {
         var label, input, span;
-        label = document.createElement('label');
-        label.setAttribute('class', 'input-label');
+        label = createEl('label', 'input-label');
         label.setAttribute('tabindex', '0');
-        input = document.createElement('input');
-        input.setAttribute('class', 'input');
+        input = createEl('input', 'input');
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/png,image/jpeg');
         input.setAttribute('tabindex', '-1');
-        span = document.createElement('span');
-        span.setAttribute('class', 'file-name');
+        span = createEl('span', 'file-name');
         span.textContent = opts.emptyLabelValue;
         label.appendChild(input);
         label.appendChild(span);
@@ -94,6 +102,11 @@ function Concatenator(options) {
     }
     function renderResult() {
         _canvas.innerHTML = getFormValues(_form);
+    }
+    function createEl(tag_name, class_name) {
+        var res = document.createElement(tag_name);
+        res.setAttribute('class', class_name);
+        return res;
     }
 
     _form.addEventListener('input', function(e) {
