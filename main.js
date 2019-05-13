@@ -15,6 +15,7 @@ function Concatenator(options) {
         width: '800px',
         button: 'Add field',
         verticalMode: false,
+        starusBar: true,
     };
     var opts = Object.assign(Object.create(defaults), options);
     var _button = document.createElement('button');
@@ -31,16 +32,6 @@ function Concatenator(options) {
         _canvas.setAttribute('class', 'canvas');
         _canvas.style.width = opts.width;
         _canvas.style.height = parseInt(parseInt(opts.width) * 0.75) + 'px';
-        //Status bar (optional)
-        var bar = createEl('div', 'status-bar');
-        var btns = createEl('div', 'buttons');
-        var bG = createEl('div', 'button button-green');
-        var bY = createEl('div', 'button button-yellow');
-        var bR = createEl('div', 'button button-red');
-        btns.appendChild(bG);
-        btns.appendChild(bY);
-        btns.appendChild(bR);
-        bar.appendChild(btns);
         //Management bar
         var m = createEl('div', 'management');
         var cB = createEl('input', 'checkbox');
@@ -54,7 +45,19 @@ function Concatenator(options) {
         _form.appendChild(m);
         //Append fields
         addField();addField();
-        elem.appendChild(bar);
+        //Status bar (optional)
+        if (opts.starusBar) {
+            var bar = createEl('div', 'status-bar');
+            var btns = createEl('div', 'buttons');
+            var bG = createEl('div', 'button button-green');
+            var bY = createEl('div', 'button button-yellow');
+            var bR = createEl('div', 'button button-red');
+            btns.appendChild(bG);
+            btns.appendChild(bY);
+            btns.appendChild(bR);
+            bar.appendChild(btns);
+            elem.appendChild(bar);
+        }
         elem.appendChild(_form);
         elem.appendChild(_canvas);
         return elem;
@@ -123,14 +126,22 @@ function Concatenator(options) {
             }
         }
     }
+    //Event listeners
     _form.addEventListener('click', function(e) {
         var target = e.target;
-        if (target && target.classList.contains('remove-input')) {
-            e.preventDefault();
-            if (confirm('Remove this field.\nAre you sure?', 'No')) {
-                removeField(target.previousElementSibling);
+        if (target) {
+            if (target.classList.contains('remove-input')) {
+                e.preventDefault();
+                if (confirm('Remove this field.\nAre you sure?')) {
+                    removeField(target.previousElementSibling);
+                    self.renderResult();
+                }
+                return;
             }
-            self.renderResult();
+            if (target.tagName.toLowerCase() == 'button') {
+                e.preventDefault();
+                self.addField();
+            }
         }
     });
     _form.addEventListener('input', function(e) {
@@ -143,11 +154,7 @@ function Concatenator(options) {
         }
         self.renderResult();
     });
-
-    _button.addEventListener('click', function(e) {
-        e.preventDefault();
-        self.addField(_concatenator.querySelector('form'));
-    });
+    //Public methods
     this.addField = addField;
     this.removeField = removeField;
     this.renderResult = renderResult;
