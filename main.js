@@ -15,7 +15,7 @@ function Concatenator(options) {
         width: '800px',
         button: 'Add field',
         verticalMode: false,
-        starusBar: true,
+        statusBar: true,
     };
     var opts = Object.assign(Object.create(defaults), options);
     var _button = document.createElement('button');
@@ -46,7 +46,7 @@ function Concatenator(options) {
         //Append fields
         addField();addField();
         //Status bar (optional)
-        if (opts.starusBar) {
+        if (opts.statusBar) {
             var bar = createEl('div', 'status-bar');
             var btns = createEl('div', 'buttons');
             var bG = createEl('div', 'button button-green');
