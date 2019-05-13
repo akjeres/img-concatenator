@@ -117,7 +117,7 @@ function Concatenator(options) {
         var input = arguments[0]; //event.target
         if (_form.elements.length > 4) { //Disable removing two first inputs type file
             if (arguments && arguments.length) {
-                input.parentNode.remove();
+                input.tagName.toLowerCase() == 'span' && input.parentNode.remove();
             } else {
                 _form.elements[_form.elements.length - 1].parentNode.remove();
             }
