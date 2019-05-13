@@ -1,11 +1,11 @@
 'use strict';
 (function(){
-    window.addEventListener('load', function(e) {
+   window.addEventListener('load', function(e) {
         var c1 = new Concatenator({
             target:document.getElementById('root'),
         });
         c1.render();
-    })
+   })
 })();
 
 function Concatenator(options) {
@@ -53,7 +53,7 @@ function Concatenator(options) {
         m.appendChild(_button);
         _form.appendChild(m);
         //Append fields
-        addField();addField();        
+        addField();addField();
         elem.appendChild(bar);
         elem.appendChild(_form);
         elem.appendChild(_canvas);
@@ -74,6 +74,11 @@ function Concatenator(options) {
         span.textContent = opts.emptyLabelValue;
         label.appendChild(input);
         label.appendChild(span);
+        if (_form.elements.length > 3) { //Disable adding remove spans to two first inputs type file
+            var close = createEl('span', 'remove-input');
+            close.textContent = '×';
+            label.appendChild(close);
+        }
         _form.appendChild(label);
     }
     function getFormValues(form) {
@@ -108,7 +113,26 @@ function Concatenator(options) {
         res.setAttribute('class', class_name);
         return res;
     }
-
+    function removeField(input) {
+        var input = arguments[0]; //event.target
+        if (_form.elements.length > 4) { //Disable removing two first inputs type file
+            if (arguments && arguments.length) {
+                input.parentNode.remove();
+            } else {
+                _form.elements[_form.elements.length - 1].parentNode.remove();
+            }
+        }
+    }
+    _form.addEventListener('click', function(e) {
+        var target = e.target;
+        if (target && target.classList.contains('remove-input')) {
+            e.preventDefault();
+            if (confirm('Remove this field.\nAre you sure?', 'No')) {
+                removeField(target.previousElementSibling);
+            }
+            self.renderResult();
+        }
+    });
     _form.addEventListener('input', function(e) {
         var target = e.target;
         if (target && target.type == 'file' && validateType(target.value)) {
@@ -125,6 +149,7 @@ function Concatenator(options) {
         self.addField(_concatenator.querySelector('form'));
     });
     this.addField = addField;
+    this.removeField = removeField;
     this.renderResult = renderResult;
     this.render = renderConcatenator;
 }
