@@ -113,7 +113,9 @@ function Concatenator(options) {
         var target = e.target;
         if (target && target.type == 'file' && validateType(target.value)) {
             if (!validateType(target.value)) target.value = '';
-            setLabelValue(target);
+        }
+        for (var key in this.elements) {
+            if (this.elements[key]['type'] == 'file') setLabelValue(this.elements[key]);
         }
         self.renderResult();
     });
