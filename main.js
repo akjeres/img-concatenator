@@ -99,7 +99,7 @@ function Concatenator(options) {
         return result.join(divider);
     }
     function validateType(value) {
-        return /\.(png|jpg)$/i.test(value);
+        return /\.(jpe?g|png|gif)$/i.test(value);
     }
     function setLabelValue(input) {
         var value = opts.emptyLabelValue;
