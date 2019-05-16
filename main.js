@@ -87,16 +87,46 @@ function Concatenator(options) {
     function getFormValues(form) {
         let elements = form.elements;
         let verticalMode = false;
-        let result = [];
-        let divider = '-';
-        Array.prototype.map.call(elements, function(i) {
-            if (i.type != 'checkbox' && validateType(i.value)) {
-                result.push(i.value);
-                return;
+        let w, h;
+        getValue(elements[0]);
+
+        function getValue(it) {
+            if (it.type != 'checkbox' && validateType(it.value)) {
+                let nI = new Image();
+                let file = it.files[0];
+                let reader  = new FileReader();
+                reader.addEventListener("load", function () {
+                    nI.src = reader.result;
+                    nI.onload = function() {
+                        if (w) {
+                            if (verticalMode) { //vertical mode handler
+                                nI.style.display = 'block';
+                                nI.width = w;
+                            } else {            //horizontal mode handler
+                                nI.height = h;
+                            }
+                        } else {
+                            w = nI.width;
+                            h = nI.height;
+                        }
+                        _canvas.appendChild(nI);
+                        if (it.parentNode.nextElementSibling) {
+                            getValue(it.parentNode.nextElementSibling.childNodes[0]);
+                        }
+                    }
+                }, false);
+                
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
             }
-            if (i.checked) divider = '<br>';
-        });
-        return result.join(divider);
+            if (it.type == 'checkbox') {
+                verticalMode = it.checked;
+            }
+            if (it.parentNode.nextElementSibling && (!validateType(it.value) || it.type == 'checkbox')) {
+                getValue(it.parentNode.nextElementSibling.childNodes[0]);
+            }
+        }
     }
     function validateType(value) {
         return /\.(jpe?g|png|gif)$/i.test(value);
@@ -109,7 +139,8 @@ function Concatenator(options) {
         inp.nextElementSibling.textContent = value;
     }
     function renderResult() {
-        _canvas.innerHTML = getFormValues(_form);
+        _canvas.innerHTML = '';
+        getFormValues(_form);
     }
     function createEl(tag_name, class_name) {
         let res = document.createElement(tag_name);
