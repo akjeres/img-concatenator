@@ -17,6 +17,7 @@ function Concatenator(options) {
         button: 'Add field',
         verticalMode: false,
         statusBar: true,
+        scalable: false,
     };
     let opts = Object.assign(Object.create(defaults), options);
     let _button = document.createElement('button');
@@ -163,6 +164,15 @@ function Concatenator(options) {
                                         dy = 0;
                                     }
                                     ctx.drawImage(result[u]['nI'], dx, dy, result[u]['w'], result[u]['h']);
+                                }
+                                if (opts.scalable) {
+                                    if (_canvas.width > parseInt(_concatenator.style.width)) {
+                                        _canvas.style.width = (parseInt(_concatenator.style.width) - 6) + 'px';
+                                    }
+                                    if (_canvas.clientHeight > opts.height) {
+                                        _canvas.style.height = opts.height + 'px';
+                                        _canvas.style.width = parseInt(_canvas.width * (opts.height / _canvas.height)) + 'px';
+                                    }
                                 }
                             }
                         }
