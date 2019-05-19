@@ -132,8 +132,9 @@ body {
     float: right;
 }
 .concatenator .canvas {
-    width: 100%;
-    min-height: 600px;
+    display: block;
+    width: auto;
+    height: auto;
 }
 .checkbox {
     display: block;

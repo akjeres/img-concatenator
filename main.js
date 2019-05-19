@@ -12,7 +12,7 @@ function Concatenator(options) {
     let defaults = {
         target: document.getElementsByTagName('body')[0],
         emptyLabelValue: 'No image selected',
-        width: '800px',
+        width: 800,
         button: 'Add field',
         verticalMode: false,
         statusBar: true,
@@ -20,7 +20,7 @@ function Concatenator(options) {
     let opts = Object.assign(Object.create(defaults), options);
     let _button = document.createElement('button');
     let _form =  document.createElement('form');
-    let _canvas = document.createElement('div'); //change to "canvas"
+    let _canvas = document.createElement('canvas');
     let _concatenator = createConcatenator();
     _concatenator.style.width = (parseInt(opts.width) + 6) + 'px';
     let _target = opts.target;
@@ -30,8 +30,6 @@ function Concatenator(options) {
         elem.setAttribute('class', 'concatenator');
         //Canvas attributes
         _canvas.setAttribute('class', 'canvas');
-        _canvas.style.width = opts.width;
-        _canvas.style.height = parseInt(parseInt(opts.width) * 0.75) + 'px';
         //Management bar
         let m = createEl('div', 'management');
         let cB = createEl('input', 'checkbox');
@@ -87,9 +85,12 @@ function Concatenator(options) {
     function getFormValues(form) {
         let elements = form.elements;
         let verticalMode = false;
-        let w, h;
+        let result = [];
+        let canvParam = {
+            w: 0,
+            h: 0,
+        };
         getValue(elements[0]);
-
         function getValue(it) {
             if (it.type != 'checkbox' && validateType(it.value)) {
                 let nI = new Image();
@@ -98,24 +99,45 @@ function Concatenator(options) {
                 reader.addEventListener("load", function () {
                     nI.src = reader.result;
                     nI.onload = function() {
-                        if (w) {
-                            if (verticalMode) { //vertical mode handler
-                                nI.style.display = 'block';
-                                nI.width = w;
-                            } else {            //horizontal mode handler
-                                nI.height = h;
-                            }
-                        } else {
-                            w = nI.width;
-                            h = nI.height;
-                        }
-                        _canvas.appendChild(nI);
+                        result.push({
+                            nI: nI,
+                            w: nI.width,
+                            h: nI.height,
+                        });
                         if (it.parentNode.nextElementSibling) {
                             getValue(it.parentNode.nextElementSibling.childNodes[0]);
                         }
+                        for (let t = 0; t < result.length; t++) {
+                            if (verticalMode) {
+                                result[t]['h'] = parseInt(result[t]['h'] * (result[0]['w'] / result[t]['w']));
+                                result[t]['w'] = result[0]['w'];
+                                canvParam['w'] = result[0]['w'];
+                                canvParam['h'] = (t > 0) ? canvParam['h'] + result[t]['h'] : result[t]['h'];
+                            } else {
+                                result[t]['w'] = parseInt(result[t]['w'] * (result[0]['h'] / result[t]['h']));
+                                result[t]['h'] = result[0]['h'];
+                                canvParam['w'] = (t > 0) ? canvParam['w'] + result[t]['w'] : result[t]['w'];
+                                canvParam['h'] = result[0]['h'];
+                            }
+                            if (t == result.length - 1) {
+                                _canvas.width = canvParam['w'];
+                                _canvas.height = canvParam['h'];
+                                const ctx = _canvas.getContext("2d");
+                                let dx, dy;
+                                for (let u = 0; u < result.length; u++) {
+                                    if (verticalMode) {
+                                        dx = 0;
+                                        dy = (u > 0) ? dy + result[u - 1]['h'] : 0;
+                                    } else {
+                                        dx = (u > 0) ? dx + result[u - 1]['w'] : 0;
+                                        dy = 0;
+                                    }
+                                    ctx.drawImage(result[u]['nI'], dx, dy, result[u]['w'], result[u]['h']);
+                                }
+                            }
+                        }
                     }
                 }, false);
-                
                 if (file) {
                     reader.readAsDataURL(file);
                 }
@@ -139,7 +161,8 @@ function Concatenator(options) {
         inp.nextElementSibling.textContent = value;
     }
     function renderResult() {
-        _canvas.innerHTML = '';
+        let context = _canvas.getContext('2d');
+        context.clearRect(0, 0, parseInt(opts.width), parseInt(opts.width) * 0.75);
         getFormValues(_form);
     }
     function createEl(tag_name, class_name) {
