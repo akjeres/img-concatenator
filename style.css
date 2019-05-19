@@ -109,7 +109,10 @@ body {
     text-align: center;
     margin-top: 0;
     margin-bottom: 15px;
-    padding: 7px 10px 7px 15px;
+    padding: 7px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .concatenator form .input-label:nth-child(even) {
     margin-left: 15px;
@@ -120,16 +123,49 @@ body {
     margin-left: auto;
 }
 .concatenator form .file-name {
+    display: block;
     font-size: inherit;
     line-height: inherit;
     color: inherit;
     font-family: inherit;
     font-weight: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 46px);
+    margin: 0 auto;
 }
-.concatenator form .remove-input {
+.concatenator form .remove-input,
+.concatenator form .remove-input-hidden {
     color: #fff;
     padding: 0 5px;
-    float: right;
+    display: block;
+    margin: 0 0 0 auto;
+}
+.concatenator form span svg {
+    height: 10px;
+    width: auto;
+}
+.concatenator form .clear-input,
+.concatenator form .clear-input-hidden {
+    width: 18px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 0 0;
+}
+.concatenator form .clear-input-hidden {
+    pointer-events: none;
+    visibility: hidden;
+}
+.concatenator form .remove-input-hidden {
+    visibility: hidden;
+}
+.concatenator .canvas-wrapper {
+    display: block;
+    width: 100%;
+    overflow: auto;
 }
 .concatenator .canvas {
     display: block;
