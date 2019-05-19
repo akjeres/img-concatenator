@@ -1,12 +1,12 @@
 'use strict';
-// (function(){
-//    window.addEventListener('load', function(e) {
+(function(){
+   window.addEventListener('load', function(e) {
         let c1 = new Concatenator({
             target:document.getElementById('root'),
         });
         c1.render();
-//    })
-// })();
+   })
+})();
 
 function Concatenator(options) {
     let defaults = {
@@ -150,6 +150,8 @@ function Concatenator(options) {
                             if (t == result.length - 1) {
                                 _canvas.width = canvParam['w'];
                                 _canvas.height = canvParam['h'];
+                                _canvas.style.width = '';
+                                _canvas.style.height = '';
                                 const ctx = _canvas.getContext("2d");
                                 let dx, dy;
                                 for (let u = 0; u < result.length; u++) {
@@ -238,8 +240,10 @@ function Concatenator(options) {
             }
             if (target.closest('span') && target.closest('span').classList.contains('clear-input')) {
                 e.preventDefault();
-                clearField(target.closest('label').childNodes[0]);
-                self.renderResult();
+                if (confirm('Clear this field.\nAre you sure?')) {
+                    clearField(target.closest('label').childNodes[0]);
+                    self.renderResult();
+                }
                 return;
             }
             if (target.tagName.toLowerCase() == 'button') {
