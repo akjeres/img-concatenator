@@ -19,6 +19,13 @@ body {
     background: #fff;
     overflow: hidden;
 }
+.concatenator.loading .canvas-wrapper {
+    background: url(assets/loading.gif) center no-repeat transparent;
+    background-size: 130px;
+}
+.concatenator.loading .canvas {
+    display: none;
+}
 .concatenator .status-bar {
     justify-content: flex-start;
     align-items: center;
@@ -154,6 +161,8 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0 auto 0 0;
+    background: url(assets/clear.svg) center no-repeat transparent;
+    background-size: 10px;
 }
 .concatenator form .clear-input-hidden {
     pointer-events: none;
