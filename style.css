@@ -19,6 +19,9 @@ body {
     background: #fff;
     overflow: hidden;
 }
+.concatenator.loading {
+    pointer-events: none;
+}
 .concatenator.loading .canvas-wrapper {
     position: relative;
 }
